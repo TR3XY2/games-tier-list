@@ -1,10 +1,12 @@
-import React from 'react';
-import './App.css';
+import React, { ReactNode } from "react";
+import "./index.css";
+import { NavBar } from "./NavBar/NavBar";
+
 
 function App() {
   return (
     <div>
-      Init
+      <NavBar />
     </div>
   );
 }
