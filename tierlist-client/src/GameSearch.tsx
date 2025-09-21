@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-
-type Game = {
-  id: number;
-  name: string;
-  background_image: string;
-};
+import { Game } from "./App";
 
 type GameSearchProps = {
   onAdd: (game: Game) => void;
@@ -30,7 +25,14 @@ function GameSearch({ onAdd }: GameSearchProps) {
           `https://api.rawg.io/api/games?key=${API_KEY}&search=${query}&page_size=9`
         );
         const data = await res.json();
-        setResults(data.results || []);
+
+        const mapped: Game[] = (data.results || []).map((g: any) => ({
+          id: g.id,
+          name: g.name,
+          background_image: g.background_image,
+        }));
+
+        setResults(mapped);
       } catch (err) {
         console.error("Error fetching games", err);
       } finally {

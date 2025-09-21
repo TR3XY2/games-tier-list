@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./index.css";
 import { NavBar } from "./NavBar/NavBar";
 import { Tier } from "./TierList/Tier";
@@ -7,19 +7,24 @@ import { GameItem } from "./TierList/GameItem";
 import GamePool from "./GamePool";
 import GameSearch from "./GameSearch";
 
-type Game = {
+export type Game = {
   id: number;
   name: string;
   background_image: string;
+  tier: string | null;
 };
 
 function App() {
-  const [gamePool, setGamePool] = useState<Game[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
 
   const handleAddGame = (game: Game) => {
-    if (!gamePool.find((g) => g.id === game.id)) {
-      setGamePool((prev) => [...prev, game]);
+    if (!games.find((g) => g.id === game.id)) {
+      setGames((prev) => [...prev, { ...game, tier: null }]);
     }
+  };
+
+  const handleRemoveGame = (id: number) => {
+    setGames((prev) => prev.filter((game) => game.id !== id));
   };
 
   return (
@@ -37,8 +42,14 @@ function App() {
       <GameSearch onAdd={handleAddGame} />
 
       <GamePool>
-        {gamePool.map((g) => (
-          <GameItem key={g.id} title={g.name} image={g.background_image} />
+        {games.map((g) => (
+          <GameItem
+            id={g.id}
+            key={g.id}
+            title={g.name}
+            image={g.background_image}
+            onRemove={handleRemoveGame}
+          />
         ))}
       </GamePool>
     </div>
