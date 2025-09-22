@@ -103,7 +103,7 @@ code {
   padding: 10px;
 }
 
-.tier-items {
+.tier-content {
   flex: 1;
   display: flex;
   flex-wrap: wrap;

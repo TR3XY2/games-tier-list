@@ -6,12 +6,14 @@ import { TierList } from "./TierList/TierList";
 import { GameItem } from "./TierList/GameItem";
 import GamePool from "./GamePool";
 import GameSearch from "./GameSearch";
+import { getTierColor } from "./Helpers/getTierColor";
 
 export type Game = {
   id: number;
   name: string;
   background_image: string;
   tier: string | null;
+  order?: number;
 };
 
 function App() {
@@ -32,25 +34,37 @@ function App() {
       <NavBar />
 
       <TierList>
-        <Tier label="S" bgColor="#e74c3c" />
-        <Tier label="A" bgColor="#f39c12" />
-        <Tier label="B" bgColor="#f1c40f" />
-        <Tier label="C" bgColor="#27ae60" />
-        <Tier label="D" bgColor="#3498db" />
+        {["S", "A", "B", "C", "D"].map((label) => (
+          <Tier key={label} label={label} bgColor={getTierColor(label)}>
+            {games
+              .filter((g) => g.tier === label)
+              .map((g) => (
+                <GameItem
+                  id={g.id}
+                  key={g.id}
+                  title={g.name}
+                  image={g.background_image}
+                  onRemove={handleRemoveGame}
+                />
+              ))}
+          </Tier>
+        ))}
       </TierList>
 
       <GameSearch onAdd={handleAddGame} />
 
       <GamePool>
-        {games.map((g) => (
-          <GameItem
-            id={g.id}
-            key={g.id}
-            title={g.name}
-            image={g.background_image}
-            onRemove={handleRemoveGame}
-          />
-        ))}
+        {games
+          .filter((g) => g.tier === null)
+          .map((g) => (
+            <GameItem
+              id={g.id}
+              key={g.id}
+              title={g.name}
+              image={g.background_image}
+              onRemove={handleRemoveGame}
+            />
+          ))}
       </GamePool>
     </div>
   );
