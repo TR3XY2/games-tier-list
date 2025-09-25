@@ -10,5 +10,20 @@ namespace TierlistServer.Models
         public DbSet<User> Users { get; set; }
         public DbSet<TierList> TierLists { get; set; }
         public DbSet<Game> Games { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+               .HasOne(u => u.TierList)
+               .WithOne(t => t.User)
+               .HasForeignKey<TierList>(t => t.UserId);
+
+            modelBuilder.Entity<TierList>()
+                .HasMany(t => t.Games)
+                .WithOne(g => g.TierList)
+                .HasForeignKey(g => g.TierListId);
+        }
     }
 }

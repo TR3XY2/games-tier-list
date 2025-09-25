@@ -11,6 +11,10 @@ namespace TierlistServer.Models
         public int Id { get; set; }
 
         [Required]
+        [Column("rawg_id")]
+        public int RawgId { get; set; }
+
+        [Required]
         [Column("title")]
         [StringLength(200)]
         public string Title { get; set; } = string.Empty;
@@ -19,10 +23,9 @@ namespace TierlistServer.Models
         [Column("background_image")]
         public string BackgroundImage { get; set; } = string.Empty;
 
-        [Required]
         [Column("tier")]
-        [StringLength(20)]
-        public string Tier { get; set; } = "Unassigned";
+        [StringLength(1)]
+        public string? Tier { get; set; } = null;
 
         [Required]
         [ForeignKey("TierList")]

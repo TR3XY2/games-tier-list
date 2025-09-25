@@ -12,11 +12,6 @@ namespace TierlistServer.Models
         public int Id { get; set; }
 
         [Required]
-        [Column("title")]
-        [StringLength(200)]
-        public string Title { get; set; } = "My Tier List";
-
-        [Required]
         [ForeignKey("User")]
         [Column("user_id")]
         public int UserId { get; set; }
