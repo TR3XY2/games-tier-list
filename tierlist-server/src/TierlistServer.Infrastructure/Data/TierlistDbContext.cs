@@ -17,6 +17,10 @@ namespace TierlistServer.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<User>()
                .HasOne(u => u.TierList)
                .WithOne(t => t.User)
                .HasForeignKey<TierList>(t => t.UserId);
