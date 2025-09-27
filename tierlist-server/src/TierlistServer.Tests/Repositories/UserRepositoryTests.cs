@@ -9,7 +9,7 @@ namespace TierlistServer.Tests.Repositories
 {
     public class UserRepositoryTests
     {
-        private TierlistDbContext GetDbContext()
+        private static TierlistDbContext GetDbContext()
         {
             var options = new DbContextOptionsBuilder<TierlistDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDb_" + Guid.NewGuid())

@@ -11,7 +11,7 @@ namespace TierlistServer.Tests.Infrastructure
 {
     public class UnitOfWorkTests
     {
-        private static IUnitOfWork GetUnitOfWork()
+        private static UnitOfWork GetUnitOfWork()
         {
             var options = new DbContextOptionsBuilder<TierlistDbContext>()
                 .UseInMemoryDatabase(databaseName: "TestDb_" + Guid.NewGuid())
