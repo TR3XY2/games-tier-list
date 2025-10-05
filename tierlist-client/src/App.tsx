@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { NavBar } from "./NavBar/NavBar";
 import { Tier } from "./TierList/Tier";
@@ -15,7 +15,11 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
 
 export type Game = {
   id: number;
@@ -25,9 +29,18 @@ export type Game = {
   order: number;
 };
 
+const LOCAL_STORAGE_KEY = "tierlist-games";
+
 function App() {
-  const [games, setGames] = useState<Game[]>([]);
+  const [games, setGames] = useState<Game[]>(() => {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  });
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(games));
+  }, [games]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
