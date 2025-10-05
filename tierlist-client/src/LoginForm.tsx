@@ -36,7 +36,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         placeholder="Email"
         type="email"
         value={email}
-        onChange={e => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
         required
         style={{ width: "100%", marginBottom: 8 }}
       />
@@ -44,11 +44,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
         placeholder="Password"
         type="password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
         required
         style={{ width: "100%", marginBottom: 8 }}
       />
-      <button type="submit" style={{ width: "100%" }}>Login</button>
+      <button type="submit" style={{ width: "100%" }}>
+        Login
+      </button>
       {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
     </form>
   );
