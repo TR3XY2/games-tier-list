@@ -88,7 +88,7 @@ function App() {
 
         const reordered = arrayMove(tierGames, oldIndex, newIndex);
 
-        reordered.forEach((g, i) => {
+        reordered.forEach((g : Game, i: any) => {
           const idx = updated.findIndex((x) => x.id === g.id);
           updated[idx] = { ...g, order: i };
         });
@@ -128,7 +128,7 @@ function App() {
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}
-        onDragStart={(event) => setActiveId(String(event.active.id))}
+        onDragStart={(event: { active: { id: any; }; }) => setActiveId(String(event.active.id))}
       >
         <TierList>
           {["S", "A", "B", "C", "D"].map((label) => (

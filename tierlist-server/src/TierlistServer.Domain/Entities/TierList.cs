@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TierlistServer.Models
+namespace TierlistServer.Domain.Entities
 {
     [Table("tier_lists")]
     public class TierList
@@ -10,11 +10,6 @@ namespace TierlistServer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
-
-        [Required]
-        [Column("title")]
-        [StringLength(200)]
-        public string Title { get; set; } = "My Tier List";
 
         [Required]
         [ForeignKey("User")]

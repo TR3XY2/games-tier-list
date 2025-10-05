@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TierlistServer.Models
+namespace TierlistServer.Domain.Entities
 {
     [Table("games")]
     public class Game
@@ -9,6 +9,10 @@ namespace TierlistServer.Models
         [Key]
         [Column("id")]
         public int Id { get; set; }
+
+        [Required]
+        [Column("rawg_id")]
+        public int RawgId { get; set; }
 
         [Required]
         [Column("title")]
@@ -19,10 +23,9 @@ namespace TierlistServer.Models
         [Column("background_image")]
         public string BackgroundImage { get; set; } = string.Empty;
 
-        [Required]
         [Column("tier")]
-        [StringLength(20)]
-        public string Tier { get; set; } = "Unassigned";
+        [StringLength(1)]
+        public string? Tier { get; set; } = null;
 
         [Required]
         [ForeignKey("TierList")]
