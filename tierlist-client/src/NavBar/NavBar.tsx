@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Logo } from "./Logo";
+import "../styles/NavBar.css";
 
 interface NavBarProps {
   user: null | { id: number; email: string; username: string };
@@ -10,11 +11,14 @@ interface NavBarProps {
 export function NavBar({ user, onLogout }: NavBarProps) {
   return (
     <nav className="nav-bar">
-      <Logo />
+      <div className="nav-content">
+        <Logo />
+      </div>
+
       <div className="nav-links">
         {user ? (
           <>
-            <span>Welcome, {user.username}</span>
+            <span className="welcome-text">Welcome, {user.username}</span>
             <button className="logout-btn" onClick={onLogout}>
               Log Out
             </button>

@@ -20,6 +20,7 @@ import {
   arrayMove,
   rectSortingStrategy,
 } from "@dnd-kit/sortable";
+import { User } from "./MainRouter";
 
 export type Game = {
   id: number;
@@ -29,9 +30,14 @@ export type Game = {
   order: number;
 };
 
+interface AppProps {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
 const LOCAL_STORAGE_KEY = "tierlist-games";
 
-function App() {
+function App({ user, setUser }: AppProps) {
   const [games, setGames] = useState<Game[]>(() => {
     const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
     return stored ? JSON.parse(stored) : [];
@@ -88,7 +94,7 @@ function App() {
 
         const reordered = arrayMove(tierGames, oldIndex, newIndex);
 
-        reordered.forEach((g : Game, i: any) => {
+        reordered.forEach((g: Game, i: any) => {
           const idx = updated.findIndex((x) => x.id === g.id);
           updated[idx] = { ...g, order: i };
         });
@@ -123,12 +129,14 @@ function App() {
 
   return (
     <div>
-      <NavBar />
+      <NavBar user={user} onLogout={() => setUser(null)} />
 
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}
-        onDragStart={(event: { active: { id: any; }; }) => setActiveId(String(event.active.id))}
+        onDragStart={(event: { active: { id: any } }) =>
+          setActiveId(String(event.active.id))
+        }
       >
         <TierList>
           {["S", "A", "B", "C", "D"].map((label) => (

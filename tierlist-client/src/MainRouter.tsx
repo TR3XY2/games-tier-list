@@ -22,7 +22,7 @@ function MainRouter() {
           path="/"
           element={
             <ProtectedRoute user={user}>
-              <App />
+              <App user={user} setUser={setUser} />
             </ProtectedRoute>
           }
         />
@@ -30,7 +30,7 @@ function MainRouter() {
           path="/login"
           element={
             <>
-              <NavBar />
+              <NavBar user={user} onLogout={() => setUser(null)} />
               <LoginForm onLogin={setUser} />
             </>
           }
@@ -39,7 +39,7 @@ function MainRouter() {
           path="/register"
           element={
             <>
-              <NavBar />
+              <NavBar user={user} onLogout={() => setUser(null)} />
               <RegisterForm onRegister={setUser} />
             </>
           }
