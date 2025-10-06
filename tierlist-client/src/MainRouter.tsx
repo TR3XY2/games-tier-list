@@ -4,18 +4,28 @@ import LoginForm from "./LoginForm";
 import RegisterForm from "./RegisterForm";
 import React, { useState } from "react";
 import { NavBar } from "./NavBar/NavBar";
+import ProtectedRoute from "./ProtectedRoute";
+
+export type User = {
+  id: number;
+  email: string;
+  username: string;
+};
 
 function MainRouter() {
-  const [user, setUser] = useState<null | {
-    id: number;
-    email: string;
-    username: string;
-  }>(null);
+  const [user, setUser] = useState<null | User>(null);
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<App />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute user={user}>
+              <App />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/login"
           element={
