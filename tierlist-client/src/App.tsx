@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.css";
 import { NavBar } from "./NavBar/NavBar";
 import { Tier } from "./TierList/Tier";
@@ -15,7 +15,12 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, rectSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
+import { User } from "./MainRouter";
 
 export type Game = {
   id: number;
@@ -25,9 +30,23 @@ export type Game = {
   order: number;
 };
 
-function App() {
-  const [games, setGames] = useState<Game[]>([]);
+interface AppProps {
+  user: User | null;
+  setUser: (user: User | null) => void;
+}
+
+const LOCAL_STORAGE_KEY = "tierlist-games";
+
+function App({ user, setUser }: AppProps) {
+  const [games, setGames] = useState<Game[]>(() => {
+    const stored = localStorage.getItem(LOCAL_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  });
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(games));
+  }, [games]);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -75,7 +94,7 @@ function App() {
 
         const reordered = arrayMove(tierGames, oldIndex, newIndex);
 
-        reordered.forEach((g : Game, i: any) => {
+        reordered.forEach((g: Game, i: any) => {
           const idx = updated.findIndex((x) => x.id === g.id);
           updated[idx] = { ...g, order: i };
         });
@@ -110,12 +129,14 @@ function App() {
 
   return (
     <div>
-      <NavBar />
+      <NavBar user={user} onLogout={() => setUser(null)} />
 
       <DndContext
         sensors={sensors}
         onDragEnd={handleDragEnd}
-        onDragStart={(event: { active: { id: any; }; }) => setActiveId(String(event.active.id))}
+        onDragStart={(event: { active: { id: any } }) =>
+          setActiveId(String(event.active.id))
+        }
       >
         <TierList>
           {["S", "A", "B", "C", "D"].map((label) => (

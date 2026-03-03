@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./styles/LoginRegisterForm.css";
 
 interface RegisterFormProps {
   onRegister: (user: { id: number; email: string; username: string }) => void;
@@ -31,34 +32,31 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegister }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: 300, margin: "0 auto" }}>
+    <form onSubmit={handleSubmit} className="form-container">
       <h2>Register</h2>
       <input
         placeholder="Email"
         type="email"
         value={email}
-        onChange={e => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
         required
-        style={{ width: "100%", marginBottom: 8 }}
       />
       <input
         placeholder="Username"
         type="text"
         value={username}
-        onChange={e => setUsername(e.target.value)}
+        onChange={(e) => setUsername(e.target.value)}
         required
-        style={{ width: "100%", marginBottom: 8 }}
       />
       <input
         placeholder="Password"
         type="password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
         required
-        style={{ width: "100%", marginBottom: 8 }}
       />
-      <button type="submit" style={{ width: "100%" }}>Register</button>
-      {error && <div style={{ color: "red", marginTop: 8 }}>{error}</div>}
+      <button type="submit">Register</button>
+      {error && <div className="error">{error}</div>}
     </form>
   );
 };

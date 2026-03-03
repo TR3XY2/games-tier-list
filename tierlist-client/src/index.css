@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -10,35 +10,14 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-.nav-bar {
-  background-color: black;
-  justify-content: center;
-  display: flex;
-  border-bottom: 1px solid #444444;
-  color: white;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-.logo h1{
-  font-size: 1.5rem;
-}
-.logo span {
-  font-size: 2rem;
-  padding-bottom: 10px;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -47,7 +26,7 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
@@ -57,19 +36,6 @@ code {
   display: flex;
   border-bottom: 1px solid #444444;
   color: white;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-.logo h1 {
-  font-size: 1.5rem;
-}
-.logo span {
-  font-size: 2rem;
-  padding-bottom: 10px;
 }
 
 .tier-list {
@@ -128,7 +94,7 @@ code {
 .game-img {
   width: 100%;
   height: 90px;
-  object-fit:cover;
+  object-fit: cover;
   display: block;
 }
 
@@ -153,7 +119,6 @@ code {
   border-radius: 10px;
   padding: 15px;
 }
-
 
 .game-item:hover {
   transform: scale(1.05);
