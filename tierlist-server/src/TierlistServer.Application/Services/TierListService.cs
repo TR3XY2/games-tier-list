@@ -1,0 +1,38 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TierlistServer.Domain.Entities;
+using TierlistServer.Domain.Interfaces;
+
+namespace TierlistServer.Application.Services
+{
+    public class TierListService
+    {
+        private readonly IUnitOfWork unitOfWork;
+
+        public TierListService(IUnitOfWork unitOfWork)
+        {
+            this.unitOfWork = unitOfWork;
+        }
+
+        public async Task<TierList?> GetByUserIdAsync(int userId)
+        {
+            return await this.unitOfWork.TierLists.GetByUserIdAsync(userId);
+        }
+
+        public async Task<TierList> CreateForUserAsync(int userId)
+        {
+            var tierList = new TierList
+            {
+                UserId = userId
+            };
+
+            await unitOfWork.TierLists.AddAsync(tierList);
+            await unitOfWork.SaveChangesAsync();
+
+            return tierList;
+        }
+    }
+}

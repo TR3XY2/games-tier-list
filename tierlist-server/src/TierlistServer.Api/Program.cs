@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using TierlistServer.Application.Mappings;
 using TierlistServer.Application.Services;
 using TierlistServer.Domain.Entities;
 using TierlistServer.Domain.Interfaces;
@@ -29,11 +31,15 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile));
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
+
     using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<TierlistDbContext>();
     await db.Database.MigrateAsync();

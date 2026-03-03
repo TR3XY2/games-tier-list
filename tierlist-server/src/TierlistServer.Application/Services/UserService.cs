@@ -9,9 +9,9 @@ namespace TierlistServer.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher<User> _passwordHasher;
 
-        public UserService(IUnitOfWork uow, IPasswordHasher<User> passwordHasher)
+        public UserService(IUnitOfWork unitOfWork, IPasswordHasher<User> passwordHasher)
         {
-            _unitOfWork = uow;
+            _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
         }
 

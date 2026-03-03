@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TierlistServer.Application.DTOs.Users;
 using TierlistServer.Application.Services;
 using TierlistServer.Domain.Entities;
 
@@ -41,7 +42,4 @@ namespace TierlistServer.Api.Controllers
             return Ok(new { user.Id, user.Email, user.Username });
         }
     }
-
-    public record RegisterDto(string Email, string Username, string Password);
-    public record LoginDto(string Email, string Password);
 }

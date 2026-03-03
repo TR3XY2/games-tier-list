@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TierlistServer.Application\TierlistServer.Application.csproj" />
+    <ProjectReference Include="..\TierlistServer.Domain\TierlistServer.Domain.csproj" />
     <ProjectReference Include="..\TierlistServer.Infrastructure\TierlistServer.Infrastructure.csproj" />
   </ItemGroup>
 
