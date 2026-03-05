@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
 using TierlistServer.Domain.Interfaces;
 
 namespace TierlistServer.Application.Services
 {
-    public class GamesService
+    public class GameService : IGameService
     {
         private readonly IUnitOfWork unitOfWork;
 
-        public GamesService(IUnitOfWork unitOfWork)
+        public GameService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }

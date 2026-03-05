@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
 using TierlistServer.Domain.Interfaces;
 
 namespace TierlistServer.Application.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher<User> _passwordHasher;
@@ -54,7 +55,7 @@ namespace TierlistServer.Application.Services
             return user;
         }
 
-        public bool VerifyPassword(User user, string password)
+        private bool VerifyPassword(User user, string password)
         {
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
             return result == PasswordVerificationResult.Success;

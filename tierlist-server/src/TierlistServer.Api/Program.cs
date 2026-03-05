@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TierlistServer.Application.Interfaces;
 using TierlistServer.Application.Mappings;
 using TierlistServer.Application.Services;
 using TierlistServer.Domain.Entities;
@@ -19,7 +20,10 @@ builder.Services.AddScoped<IGameRepository, GameRepository>();
 builder.Services.AddScoped<ITierListRepository, TierListRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITierListService, TierListService>();
+builder.Services.AddScoped<IGameService, GameService>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>

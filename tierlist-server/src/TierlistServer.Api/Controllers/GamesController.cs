@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TierlistServer.Application.Services;
+using TierlistServer.Application.DTOs.Games;
+using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
 
 namespace TierlistServer.Api.Controllers
@@ -9,11 +11,13 @@ namespace TierlistServer.Api.Controllers
     [ApiController]
     public class GamesController : ControllerBase
     {
-        private readonly GamesService gamesService;
+        private readonly IGameService gamesService;
+        private readonly IMapper mapper;
 
-        public GamesController(GamesService gamesService)
+        public GamesController(IGameService gamesService, IMapper mapper)
         {
             this.gamesService = gamesService;
+            this.mapper = mapper;
         }
 
 
@@ -22,20 +26,26 @@ namespace TierlistServer.Api.Controllers
         {
             var games = await this.gamesService.GetByTierListIdAsync(tierListId);
 
-            return Ok(games);
+            var dtos = this.mapper.Map<IEnumerable<GameDto>>(games);
+
+            return Ok(dtos);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddGame([FromBody] Game game)
+        public async Task<IActionResult> AddGame([FromBody] AddGameDto addGameDto)
         {
+            var game = mapper.Map<AddGameDto, Game>(addGameDto);
             var result = await this.gamesService.AddAsync(game);
-            return Ok(result);
+
+            var gameDto = mapper.Map<Game, GameDto>(result);
+
+            return Ok(gameDto);
         }
 
         [HttpPut("{id}/tier")]
-        public async Task<IActionResult> UpdateTier(int id, [FromBody] string? Tier)
+        public async Task<IActionResult> UpdateTier(int id, [FromBody] UpdateGameTierDto updateGameTierDto)
         {
-            var IsSuccessfull = await gamesService.UpdateTierAsync(id, Tier);
+            var IsSuccessfull = await gamesService.UpdateTierAsync(id, updateGameTierDto.Tier);
 
             if (!IsSuccessfull)
             {

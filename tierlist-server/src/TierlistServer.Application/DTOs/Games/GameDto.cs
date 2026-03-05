@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace TierlistServer.Application.DTOs.Games
 {
-    public record AddGameDto(
+    public record GameDto(
+        int Id,
         int RawgId,
         string Title,
         string BackgroundImage,
-        int TierListId
+        string? Tier
     );
 }
