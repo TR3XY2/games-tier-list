@@ -2,27 +2,26 @@
 
 #nullable disable
 
-namespace TierlistServer.Migrations
+namespace TierlistServer.Migrations;
+
+/// <inheritdoc />
+public partial class AddUserEmailUniqueIndex : Migration
 {
     /// <inheritdoc />
-    public partial class AddUserEmailUniqueIndex : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.CreateIndex(
-                name: "IX_users_email",
-                table: "users",
-                column: "email",
-                unique: true);
-        }
+        migrationBuilder.CreateIndex(
+            name: "IX_users_email",
+            table: "users",
+            column: "email",
+            unique: true);
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropIndex(
-                name: "IX_users_email",
-                table: "users");
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropIndex(
+            name: "IX_users_email",
+            table: "users");
     }
 }

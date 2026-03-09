@@ -7,60 +7,64 @@ using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
 using TierlistServer.Domain.Interfaces;
 
-namespace TierlistServer.Application.Services
+namespace TierlistServer.Application.Services;
+
+public class GameService : IGameService
 {
-    public class GameService : IGameService
+    private readonly IUnitOfWork unitOfWork;
+
+    public GameService(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork;
+    }
 
-        public GameService(IUnitOfWork unitOfWork)
+    public async Task<Game> AddAsync(Game game)
+    {
+        await this.unitOfWork.Games.AddAsync(game);
+        await this.unitOfWork.SaveChangesAsync();
+
+        return game;
+    }
+
+    public async Task<Game?> GetByIdAsync(int id)
+    {
+        return await this.unitOfWork.Games.GetByIdAsync(id);
+    }
+
+    public async Task<IEnumerable<Game>> GetByTierListIdAsync(int tierListId)
+    {
+        return await this.unitOfWork.Games.GetByTierListIdAsync(tierListId);
+    }
+
+    public async Task<bool> UpdateTierAsync(int gameId, string? tier)
+    {
+        var game = await unitOfWork.Games.GetByIdAsync(gameId);
+
+        if (game == null)
         {
-            this.unitOfWork = unitOfWork;
+            return false;
         }
 
-        public async Task<Game> AddAsync(Game game)
-        {
-            await this.unitOfWork.Games.AddAsync(game);
-            await this.unitOfWork.SaveChangesAsync();
+        game.Tier = tier;
 
-            return game;
+        await unitOfWork.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> DeleteAsync(int gameId)
+    {
+        var game = await unitOfWork.Games.GetByIdAsync(gameId);
+
+        if (game == null)
+        {
+            return false;
         }
 
-        public async Task<IEnumerable<Game>> GetByTierListIdAsync(int tierListId)
-        {
-            return await this.unitOfWork.Games.GetByTierListIdAsync(tierListId);
-        }
+        unitOfWork.Games.Delete(game);
 
-        public async Task<bool> UpdateTierAsync(int gameId, string? tier)
-        {
-            var game = await unitOfWork.Games.GetByIdAsync(gameId);
+        await unitOfWork.SaveChangesAsync();
 
-            if (game == null)
-            {
-                return false;
-            }
-
-            game.Tier = tier;
-
-            await unitOfWork.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<bool> DeleteAsync(int gameId)
-        {
-            var game = await unitOfWork.Games.GetByIdAsync(gameId);
-
-            if (game == null)
-            {
-                return false;
-            }
-
-            unitOfWork.Games.Delete(game);
-
-            await unitOfWork.SaveChangesAsync();
-
-            return true;
-        }
+        return true;
     }
 }

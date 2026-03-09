@@ -6,16 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using TierlistServer.Application.DTOs.Games;
 using TierlistServer.Application.DTOs.TierLists;
+using TierlistServer.Application.DTOs.Users;
 using TierlistServer.Domain.Entities;
 
-namespace TierlistServer.Application.Mappings
+namespace TierlistServer.Application.Mappings;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile : Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            this.CreateMap<Game, AddGameDto>().ReverseMap();
-            this.CreateMap<TierList, TierListDto>().ReverseMap();
-        }
+        this.CreateMap<Game, AddGameDto>().ReverseMap();
+        this.CreateMap<TierList, TierListDto>().ReverseMap();
+        this.CreateMap<User, UserDto>().ReverseMap(); 
     }
 }

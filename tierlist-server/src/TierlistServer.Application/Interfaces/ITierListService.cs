@@ -1,10 +1,9 @@
 ﻿using TierlistServer.Domain.Entities;
 
-namespace TierlistServer.Application.Interfaces
+namespace TierlistServer.Application.Interfaces;
+
+public interface ITierListService
 {
-    public interface ITierListService
-    {
-        Task<TierList> CreateForUserAsync(int userId);
-        Task<TierList?> GetByUserIdAsync(int userId);
-    }
+    Task<TierList> CreateForUserAsync(int userId);
+    Task<TierList?> GetByUserIdAsync(int userId);
 }

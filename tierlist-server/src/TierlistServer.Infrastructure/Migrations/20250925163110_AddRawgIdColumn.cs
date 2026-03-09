@@ -2,28 +2,27 @@
 
 #nullable disable
 
-namespace TierlistServer.Migrations
+namespace TierlistServer.Migrations;
+
+/// <inheritdoc />
+public partial class AddRawgIdColumn : Migration
 {
     /// <inheritdoc />
-    public partial class AddRawgIdColumn : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<int>(
-                name: "rawg_id",
-                table: "games",
-                type: "integer",
-                nullable: false,
-                defaultValue: 0);
-        }
+        migrationBuilder.AddColumn<int>(
+            name: "rawg_id",
+            table: "games",
+            type: "integer",
+            nullable: false,
+            defaultValue: 0);
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "rawg_id",
-                table: "games");
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropColumn(
+            name: "rawg_id",
+            table: "games");
     }
 }

@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using TierlistServer.Domain.Entities;
 
-namespace TierlistServer.Domain.Interfaces
+namespace TierlistServer.Domain.Interfaces;
+
+public interface IUserRepository
 {
-    public interface IUserRepository
-    {
-        Task<User?> GetByIdAsync(int id);
-        Task<User?> GetByEmailAsync(string email);
-        Task AddAsync(User user);
-        void Delete(User user);
-    }
+    Task<User?> GetByIdAsync(int id);
+    Task<User?> GetByEmailAsync(string email);
+    Task AddAsync(User user);
+    void Delete(User user);
 }

@@ -5,13 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using TierlistServer.Domain.Entities;
 
-namespace TierlistServer.Domain.Interfaces
+namespace TierlistServer.Domain.Interfaces;
+
+public interface IGameRepository
 {
-    public interface IGameRepository
-    {
-        Task<Game?> GetByIdAsync(int id);
-        Task<IEnumerable<Game>> GetByTierListIdAsync(int tierListId);
-        Task AddAsync(Game game);
-        void Delete(Game game);
-    }   
-}
+    Task<Game?> GetByIdAsync(int id);
+    Task<IEnumerable<Game>> GetByTierListIdAsync(int tierListId);
+    Task AddAsync(Game game);
+    void Delete(Game game);
+}   

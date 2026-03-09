@@ -4,45 +4,45 @@ using Microsoft.AspNetCore.Mvc;
 using TierlistServer.Application.DTOs.TierLists;
 using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
+using TierlistServer.Infrastructure;
 
-namespace TierlistServer.Api.Controllers
+namespace TierlistServer.Api.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class TierListController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class TierListController : ControllerBase
+    private readonly ITierListService tierListService;
+    private readonly IMapper mapper;
+
+    public TierListController(ITierListService tierListService, IMapper mapper)
     {
-        private readonly ITierListService tierListService;
-        private readonly IMapper mapper;
+        this.tierListService = tierListService;
+        this.mapper = mapper;
+    }
 
-        public TierListController(ITierListService tierListService, IMapper mapper)
+    [HttpGet("user/{userId}")]
+    public async Task<IActionResult> GetByUserId(int userId)
+    { 
+        var tierlist = await this.tierListService.GetByUserIdAsync(userId);
+
+        if (tierlist == null)
         {
-            this.tierListService = tierListService;
-            this.mapper = mapper;
+            return this.NotFound();
         }
 
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetByUserId(int userId)
-        { 
-            var tierlist = await this.tierListService.GetByUserIdAsync(userId);
+        var dto = this.mapper.Map<TierList, TierListDto>(tierlist);
 
-            if (tierlist == null)
-            {
-                return this.NotFound();
-            }
+        return this.Ok(dto);
+    }
 
-            var dto = this.mapper.Map<TierList, TierListDto>(tierlist);
+    [HttpPost("user/{userId}")]
+    public async Task<IActionResult> CreateForUser(int userId)
+    {
+        var tierlist = await this.tierListService.CreateForUserAsync(userId);
 
-            return this.Ok(dto);
-        }
+        var dto = this.mapper.Map<TierList, TierListDto>(tierlist);
 
-        [HttpPost("user/{userId}")]
-        public async Task<IActionResult> CreateForUser(int userId)
-        {
-            var tierlist = await this.tierListService.CreateForUserAsync(userId);
-
-            var dto = this.mapper.Map<TierList, TierListDto>(tierlist);
-
-            return this.Ok(dto);
-        }
+        return this.Ok(dto);
     }
 }

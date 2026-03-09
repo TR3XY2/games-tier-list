@@ -7,33 +7,39 @@ using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
 using TierlistServer.Domain.Interfaces;
 
-namespace TierlistServer.Application.Services
+namespace TierlistServer.Application.Services;
+
+public class TierListService : ITierListService
 {
-    public class TierListService : ITierListService
+    private readonly IUnitOfWork unitOfWork;
+
+    public TierListService(IUnitOfWork unitOfWork)
     {
-        private readonly IUnitOfWork unitOfWork;
+        this.unitOfWork = unitOfWork;
+    }
 
-        public TierListService(IUnitOfWork unitOfWork)
+    public async Task<TierList?> GetByUserIdAsync(int userId)
+    {
+        return await this.unitOfWork.TierLists.GetByUserIdAsync(userId);
+    }
+
+    public async Task<TierList> CreateForUserAsync(int userId)
+    {
+        var existing = await unitOfWork.TierLists.GetByUserIdAsync(userId);
+
+        if (existing != null)
         {
-            this.unitOfWork = unitOfWork;
+            return existing;
         }
 
-        public async Task<TierList?> GetByUserIdAsync(int userId)
+        var tierList = new TierList
         {
-            return await this.unitOfWork.TierLists.GetByUserIdAsync(userId);
-        }
+            UserId = userId
+        };
 
-        public async Task<TierList> CreateForUserAsync(int userId)
-        {
-            var tierList = new TierList
-            {
-                UserId = userId
-            };
+        await unitOfWork.TierLists.AddAsync(tierList);
+        await unitOfWork.SaveChangesAsync();
 
-            await unitOfWork.TierLists.AddAsync(tierList);
-            await unitOfWork.SaveChangesAsync();
-
-            return tierList;
-        }
+        return tierList;
     }
 }
