@@ -416,3 +416,4 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+/tierlist-server/src/TierlistServer.Api/appsettings.json

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TierlistServer.Application.DTOs.TierLists;
 using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
@@ -9,6 +11,7 @@ using TierlistServer.Infrastructure;
 namespace TierlistServer.Api.Controllers;
 
 [Route("api/[controller]")]
+[Authorize]
 [ApiController]
 public class TierListController : ControllerBase
 {
@@ -21,9 +24,11 @@ public class TierListController : ControllerBase
         this.mapper = mapper;
     }
 
-    [HttpGet("user/{userId}")]
-    public async Task<IActionResult> GetByUserId(int userId)
-    { 
+    [HttpGet]
+    public async Task<IActionResult> GetMyTierList()
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
         var tierlist = await this.tierListService.GetByUserIdAsync(userId);
 
         if (tierlist == null)
@@ -36,9 +41,11 @@ public class TierListController : ControllerBase
         return this.Ok(dto);
     }
 
-    [HttpPost("user/{userId}")]
-    public async Task<IActionResult> CreateForUser(int userId)
+    [HttpPost]
+    public async Task<IActionResult> CreateForCurrentUser()
     {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
         var tierlist = await this.tierListService.CreateForUserAsync(userId);
 
         var dto = this.mapper.Map<TierList, TierListDto>(tierlist);

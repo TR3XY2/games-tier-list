@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using TierlistServer.Application.Auth;
 using TierlistServer.Application.DTOs.Users;
 using TierlistServer.Application.Interfaces;
 using TierlistServer.Domain.Entities;
@@ -10,13 +11,15 @@ namespace TierlistServer.Api.Controllers;
 [Route("api/[controller]")]
 public class UsersController : ControllerBase
 {
+    private readonly JwtTokenGenerator tokenGenerator;
     private readonly IUserService _userService;
     private readonly IMapper mapper;
 
-    public UsersController(IUserService userService, IMapper mapper)
+    public UsersController(IUserService userService, IMapper mapper, JwtTokenGenerator tokenGenerator)
     {
         _userService = userService;
         this.mapper = mapper;
+        this.tokenGenerator = tokenGenerator;
     }
 
     [HttpPost("register")]
@@ -45,8 +48,14 @@ public class UsersController : ControllerBase
             return this.Unauthorized(new { message = "Invalid credentials" });
         }
 
+        var token = tokenGenerator.GenerateToken(user);
+
         var userDto = this.mapper.Map<UserDto>(user);
 
-        return this.Ok(userDto);
+        return this.Ok(new
+        {
+            token,
+            user = userDto,
+        });
     }
 }
